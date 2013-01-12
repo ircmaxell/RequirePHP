@@ -23,6 +23,19 @@ class Promise {
         }
     }
 
+    public function then($done = null, $fail = null, $progress = null) {
+        if (is_callable($done)) {
+            $this->done($done);
+        }
+        if (is_callable($fail)) {
+            $this->fail($fail);
+        }
+        if (is_callable($progress)) {
+            $this->progress($progress);
+        }
+        return $this;
+    }
+
     public function always($callback) {
         $this->done($callback)->fail($callback);
     }

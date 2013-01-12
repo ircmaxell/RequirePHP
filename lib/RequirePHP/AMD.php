@@ -4,7 +4,6 @@ namespace RequirePHP;
 
 use React\Promise\Deferred;
 use React\Promise\When;
-use React\Promise\PromiseInterface;
 
 
 class AMD {
@@ -107,12 +106,8 @@ class AMD {
             list ($id, $module) = $this->parseId($dep);
             $export = $this->exports->$id;
             $skip = true;
-            if ($export instanceof PromiseInterface) {
+            if ($export !== null) {
                 $deferreds[] = $export;
-            } elseif ($export !== null) {
-                $localDef = new Deferred;
-                $localDef->resolve($export);
-                $deferreds[] = $localDef->promise();
             } else {
                 if (array_search($dep, $stack)) {
                     throw new \RuntimeException("Circular Dependency Detected");
@@ -141,7 +136,7 @@ class AMD {
                     if ($result instanceof Export) {
                         $result = $result->getValue();
                     }
-                    $localDef->resolve($result);
+                    When::resolve($result)->then(array($localDef, 'resolve'));
                 });
                 $deferreds[] = $localDef->promise();
             }
@@ -150,7 +145,10 @@ class AMD {
             }
         }
 
-        return When::all($deferreds);
+        return When::all($deferreds)->then(function($args) {
+            ksort($args);
+            return $args;
+        });
     }
     
     public function with($deps, $callback) {

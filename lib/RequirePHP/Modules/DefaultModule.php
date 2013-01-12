@@ -2,8 +2,9 @@
 
 namespace RequirePHP\Modules;
 
-use RequirePHP\Deferred;
-use RequirePHP\Promise;
+use React\Promise\Deferred;
+use React\Promise\PromiseInterface;
+
 
 class DefaultModule implements \RequirePHP\Module {
 
@@ -14,12 +15,12 @@ class DefaultModule implements \RequirePHP\Module {
     public function load(\RequirePHP\AMD $amd, $name, $callback) {
         $module = $this->loadModule($amd, $name);
         if ($module) {
-            $module->done($callback);
+            $module->then($callback);
             return;
         }
         $class = $this->loadClass($amd, $name);
         if ($class) {
-            $class->done($callback);
+            $class->then($callback);
             return;
         }
         
@@ -34,9 +35,9 @@ class DefaultModule implements \RequirePHP\Module {
                 return false;
             }
             $deferred = new Deferred;
-            $amd->load($deps)->done(function () use ($name, $deferred) {
+            $amd->load($deps)->then(function ($args) use ($name, $deferred) {
                 $r = new \ReflectionClass($name);
-                $instance = $r->newInstanceArgs(func_get_args());
+                $instance = $r->newInstanceArgs($args);
                 $deferred->resolve($instance);
             });
             return $deferred->promise();

@@ -1,64 +1,56 @@
 {
-    "hash": "b8e5f2d4dc2dd8ef5bc7d0c1b1128c8e",
+    "hash": "2bc7d588aff4bf4854972498d578e844",
     "packages": [
-
-    ],
-    "packages-dev": [
         {
-            "name": "twig/twig",
-            "version": "v1.12.0",
+            "name": "react/promise",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "git://github.com/fabpot/Twig.git",
-                "reference": "v1.12.0"
+                "url": "https://github.com/reactphp/promise",
+                "reference": "edeeab38525f2398c53dba49444b8b384821c677"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/fabpot/Twig/archive/v1.12.0.zip",
-                "reference": "v1.12.0",
+                "url": "https://github.com/reactphp/promise/archive/edeeab38525f2398c53dba49444b8b384821c677.zip",
+                "reference": "edeeab38525f2398c53dba49444b8b384821c677",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.2.4"
+                "php": ">=5.3.3"
             },
-            "time": "2013-01-08 13:42:43",
+            "time": "1356800591",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.12-dev"
+                    "dev-master": "1.0-dev"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-0": {
-                    "Twig_": "lib/"
+                    "React\\Promise": "src/"
                 }
             },
             "license": [
-                "BSD-3"
+                "MIT"
             ],
             "authors": [
                 {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Armin Ronacher",
-                    "email": "armin.ronacher@active-4.com"
+                    "name": "Jan Sorgalla",
+                    "email": "jsorgalla@googlemail.com",
+                    "homepage": "http://sorgalla.com",
+                    "role": "maintainer"
                 }
             ],
-            "description": "Twig, the flexible, fast, and secure template language for PHP",
-            "homepage": "http://twig.sensiolabs.org",
-            "keywords": [
-                "templating"
-            ]
+            "description": "A lightweight implementation of CommonJS Promises/A for PHP"
         }
     ],
+    "packages-dev": null,
     "aliases": [
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": [
-
-    ]
+    "stability-flags": {
+        "react/promise": 20
+    }
 }

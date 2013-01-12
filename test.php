@@ -6,7 +6,7 @@ $amd = new RequirePHP\AMD;
 $amd->config->paths['Test'] = __DIR__ . '/test/stubs/RequirePHPStubs';
 $amd->addModule(new RequirePHP\Modules\TwigModule);
 
-/**
+//**
 $amd->define('bar', function() { return 'bar'; });
 
 $amd->alias('RequirePHPStubs\Interface1', 'new!RequirePHPStubs\Class1');

@@ -6,13 +6,13 @@
         "twig/twig": ">=1.8,<2.0-dev"
     },
     "require": {
-        "php": ">=5.3.0"
+        "php": ">=5.3.0",
+        "react/promise": "dev-master"
     },
     "autoload": {
         "psr-0": {
             "RequirePHP": "lib",
             "RequirePHPStubs": "test/stubs"
-        },
-        "files": ["lib/RequirePHP/functions.php"]
+        }
     }
 }

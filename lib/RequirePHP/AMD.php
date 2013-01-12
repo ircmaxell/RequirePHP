@@ -2,6 +2,11 @@
 
 namespace RequirePHP;
 
+use React\Promise\Deferred;
+use React\Promise\When;
+use React\Promise\PromiseInterface;
+
+
 class AMD {
     public $config;
     protected $aliases = array();
@@ -84,12 +89,12 @@ class AMD {
         }
         $self = $this;
 
-        $this->load($deps)->done(function() use ($id, $factory, $self) {
+        $this->load($deps)->then(function($args) use ($id, $factory, $self) {
             if (is_callable($factory)) {
-                $self->addExport($id, new Exports\FactorySingle($factory, func_get_args()));
+                $self->addExport($id, new Exports\FactorySingle($factory, $args));
             } else {
                 $r = new \ReflectionClass($factory);
-                $self->addExport($id, new Exports\Value($r->newInstanceArgs(func_get_args())));
+                $self->addExport($id, new Exports\Value($r->newInstanceArgs($args)));
             }
         });
     }
@@ -102,12 +107,12 @@ class AMD {
             list ($id, $module) = $this->parseId($dep);
             $export = $this->exports->$id;
             $skip = true;
-            if ($export instanceof Promise) {
+            if ($export instanceof PromiseInterface) {
                 $deferreds[] = $export;
             } elseif ($export !== null) {
                 $localDef = new Deferred;
                 $localDef->resolve($export);
-                $deferreds[] = $localDef;
+                $deferreds[] = $localDef->promise();
             } else {
                 if (array_search($dep, $stack)) {
                     throw new \RuntimeException("Circular Dependency Detected");
@@ -120,7 +125,7 @@ class AMD {
                 $localDef = $this->load(array($alias), $dep);
                 $this->addExport($id, $localDef);
                 list($aliasId) = $this->parseId($alias);
-                $localDef->done(function() use ($id, $aliasId, $self) {
+                $localDef->then(function() use ($id, $aliasId, $self) {
                     $self->aliasExport($aliasId, $id);
                 });
                 $deferreds[] = $localDef;
@@ -138,21 +143,24 @@ class AMD {
                     }
                     $localDef->resolve($result);
                 });
-                $deferreds[] = $localDef;
+                $deferreds[] = $localDef->promise();
             }
             if ($skip) {
                 array_pop($stack);
             }
         }
 
-        return whenAll($deferreds);
+        return When::all($deferreds);
     }
     
     public function with($deps, $callback) {
+        $cb = function($args) use ($callback) {
+            return call_user_func_array($callback, $args);
+        };
         if (is_array($deps)) {
-            $this->load($deps)->done($callback);
+            $this->load($deps)->then($cb);
         } elseif (is_string($deps)) {
-            $this->load(array($deps))->done($callback);
+            $this->load(array($deps))->then($cb);
         }
         return $this;
     }

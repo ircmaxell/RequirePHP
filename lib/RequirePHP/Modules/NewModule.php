@@ -16,18 +16,18 @@ class NewModule implements \RequirePHP\Module {
         }
         $deps = $this->getDeps($name);
 
-        $amd->load($deps)->done($this->getLoadClassCallback($name, $callback));
+        $cb = $this->getLoadClassCallback($name, $callback);
+        $amd->load($deps)->then($cb);
     }
 
     protected function getLoadClassCallback($name, $callback) {
-        return (function() use ($name, $callback) {
-            $args = func_get_args();
+        return (function($args) use ($name, $callback) {
             $factory = new Factory(
-                    function() use ($name) {
+                    function($args) use ($name) {
                         $r = new \ReflectionClass($name);
-                        return $r->newInstanceArgs(func_get_args());
+                        return $r->newInstanceArgs($args);
                     },
-                    $args
+                    array($args)
             );
             $callback($factory);
         });

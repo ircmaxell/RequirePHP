@@ -145,7 +145,10 @@ class AMD {
             }
         }
 
-        return When::all($deferreds);
+        return When::all($deferreds)->then(function($args) {
+            ksort($args);
+            return $args;
+        });
     }
     
     public function with($deps, $callback) {

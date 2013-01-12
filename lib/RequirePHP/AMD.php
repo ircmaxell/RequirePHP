@@ -136,7 +136,7 @@ class AMD {
                     if ($result instanceof Export) {
                         $result = $result->getValue();
                     }
-                    $localDef->resolve($result);
+                    When::resolve($result)->then(array($localDef, 'resolve'));
                 });
                 $deferreds[] = $localDef->promise();
             }

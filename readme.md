@@ -41,6 +41,14 @@ Check out test.php for more usage details.
             var_dump($bar); // string(8) "stdclass"
         });
 
+## Autoloading:
+
+You do not need to explicitly define classes. It will attempt to read required dependencies from the type-hints of class constructors, and auto-resolve them.
+
+If a class type-hints against an interface, you should alias the interface to the class you want to use...
+
+If you want to override the autoloading nature for a specific class or interface, just define a new factory using `define()`...
+
 ## ID:
 
 The default value of an ID is to be treated like a class name. So a request for `FooBar` would try to load the class.

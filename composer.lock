@@ -1,36 +1,36 @@
 {
-    "hash": "2bc7d588aff4bf4854972498d578e844",
+    "hash": "f1eec6a454bc2244edbd1acceeeeeb74",
     "packages": [
         {
             "name": "react/promise",
-            "version": "dev-master",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/promise",
-                "reference": "edeeab38525f2398c53dba49444b8b384821c677"
+                "reference": "v1.0.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/reactphp/promise/archive/edeeab38525f2398c53dba49444b8b384821c677.zip",
-                "reference": "edeeab38525f2398c53dba49444b8b384821c677",
+                "url": "https://github.com/reactphp/promise/archive/v1.0.3.zip",
+                "reference": "v1.0.3",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "1356800591",
+            "time": "2012-11-17 21:29:48",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "1.0-dev"
                 }
             },
-            "installation-source": "source",
             "autoload": {
                 "psr-0": {
                     "React\\Promise": "src/"
                 }
             },
+            "notification-url": "http://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -50,7 +50,7 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "react/promise": 20
-    }
+    "stability-flags": [
+
+    ]
 }

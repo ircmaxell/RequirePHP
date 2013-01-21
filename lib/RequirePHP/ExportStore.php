@@ -27,11 +27,11 @@ class ExportStore {
 
     public function alias($from, $to) {
         $fromExp = $this->getExport($from);
-        if ($fromExp) {
-            $this->exports[$to] = $fromExp;
-        } else {
+        if (!$fromExp) {
             throw new \RuntimeException('Attempting to alias non-existant export: ' . $from);
         }
+        
+        $this->exports[$to] = $fromExp;
     }
 
     public function getExport($id) {
